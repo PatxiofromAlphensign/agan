@@ -14,7 +14,6 @@ class AGAN:
     def __init__(self, noise_size, batch_size):
         self.batch_size = batch_size
         self.noise_size = noise_size
-
     def initialize(self, generator, discriminator):
         generator.optimizer = keras.optimizers.Adam(1e-4, beta_1=0.5)
         discriminator.optimizer = keras.optimizers.Adam(1e-4, beta_1=0.5)
@@ -91,8 +90,10 @@ class AGAN:
         self.initialize(generator, discriminator)
 
     def save(self):
-        self.G.save('Generator')
-        self.D.save('Discriminator')
+        self.G.compile()
+        self.G.fit()
+        #self.G.save('Generator')
+        #self.D.save('Discriminator')
 
     def generate_examples(self, name):
         generated = self.G(tf.random.normal([16, self.noise_size]), training=False)
